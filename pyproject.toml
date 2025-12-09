@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metabase-impact"
+version = "0.1.0"
+description = "Find which Metabase questions will break when you change your database schema"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = [
+    "requests>=2.28.0",
+    "click>=8.0.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+metabase-impact = "metabase_impact.cli:main"
