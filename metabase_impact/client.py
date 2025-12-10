@@ -14,7 +14,7 @@ class Card:
 
     id: int
     name: str
-    query: str | None  # SQL text, None if not a native query
+    query: str
 
 
 class MetabaseClient:
