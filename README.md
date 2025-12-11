@@ -9,7 +9,7 @@ When engineers drop or rename columns/tables, they often break Metabase question
 ## Installation
 
 ```bash
-pip install metabase-impact
+pip install git+https://github.com/yukipeters/metabase-impact.git
 ```
 
 ## Usage
