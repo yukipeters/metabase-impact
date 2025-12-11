@@ -22,7 +22,10 @@ from metabase_impact.client import MetabaseClient, MetabaseAPIError
     help="Table to drop",
 )
 def main(metabase_url: str, api_key: str, drop_column: tuple[str, ...], drop_table: tuple[str, ...]) -> None:
-    """Find Metabase questions affected by schema changes."""
+    """Find Metabase questions affected by schema changes.
+
+    Example: metabase-impact --metabase-url http://localhost:3000 --api-key "mb_xxx" --drop-column orders.user_id
+    """
     console = Console()
 
     if not drop_column and not drop_table:
