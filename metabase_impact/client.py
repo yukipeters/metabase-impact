@@ -47,12 +47,45 @@ class MetabaseClient:
             raise MetabaseAPIError(f"API error: {e.response.status_code}")
 
     def get_cards(self) -> list[Card]:
-        """Fetch all native SQL cards from Metabase."""
+        """Fetch all native SQL cards from Metabase.
+
+        Metabase has two formats for native SQL queries:
+
+        New format (MBQL 5):
+            "dataset_query": {
+                "lib/type": "mbql/query",
+                "database": 1,
+                "stages": [
+                    {
+                        "lib/type": "mbql.stage/native",
+                        "native": "SELECT ..."
+                    }
+                ]
+            }
+
+        Legacy format (MBQL 4):
+            "dataset_query": {
+                "database": 1,
+                "type": "native",
+                "native": {
+                    "query": "SELECT ..."
+                }
+            }
+        """
         cards = []
         for item in self._request("/api/card"):
             dataset_query = item.get("dataset_query", {})
+            query = None
+
+            # New format (MBQL 5): stages[0].native is a string
             stages = dataset_query.get("stages", [])
-            query = stages[0].get("native") if stages else None
+            if stages:
+                query = stages[0].get("native")
+
+            # Legacy format (MBQL 4): native.query is nested
+            if not query and dataset_query.get("type") == "native":
+                query = dataset_query.get("native", {}).get("query")
+
             if query:
                 cards.append(Card(
                     id=item["id"],
