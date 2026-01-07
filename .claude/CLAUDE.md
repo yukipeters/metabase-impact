@@ -10,7 +10,7 @@ When engineers drop/rename columns or tables, they often break Metabase reports 
 
 - CLI that takes `--metabase-url`, `--api-key`, and `--drop-column table.column` flags
 - Fetches all cards from Metabase API (GET /api/card)
-- Uses simple string matching to find cards whose SQL queries reference the dropped column/table
+- Uses sqlglot for SQL parsing to find cards whose queries reference the dropped column/table
 - Outputs a list of affected cards with links to them in Metabase
 - Clean, professional code (public GitHub repo)
 - Type hints, docstrings, basic error handling
@@ -18,7 +18,7 @@ When engineers drop/rename columns or tables, they often break Metabase reports 
 
 ## Technical Decisions
 
-- Simple string matching for MVP (not full SQL parsing)
+- Uses sqlglot for SQL parsing (handles aliases, complex queries)
 - Only supports native SQL queries (not MBQL visual queries)
 - Open source (MIT license)
 - Python 3.10+
